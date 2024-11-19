@@ -1,0 +1,31 @@
+<div class="container mt-3">
+    <h2>Nuevo Préstamo</h2>
+    <form [formGroup]="formPrestamo" (ngSubmit)="guardarPrestamo()">
+      <div class="mb-3">
+        <label for="libro" class="form-label">Libro</label>
+        <select id="libro" class="form-select" formControlName="libroId">
+          <option value="" disabled>Seleccione un libro</option>
+          <option *ngFor="let libro of libros" [value]="libro.id">
+            {{ libro.titulo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="lector" class="form-label">Lector</label>
+        <input id="lector" type="text" class="form-control" formControlName="lector" />
+        <div *ngIf="formPrestamo.get('lector')?.invalid && formPrestamo.get('lector')?.touched" class="text-danger">
+          El lector es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fechaPrestamo" class="form-label">Fecha de Préstamo</label>
+        <input id="fechaPrestamo" type="date" class="form-control" formControlName="fechaPrestamo" />
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="formPrestamo.invalid">Guardar</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/prestamos'])">Cancelar</button>
+    </form>
+  </div>
+  

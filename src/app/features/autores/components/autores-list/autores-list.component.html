@@ -1,0 +1,46 @@
+<div class="container mt-3">
+  <h2>Listado de Autores</h2>
+  <button class="btn btn-primary mb-3" routerLink="new">Nuevo Autor</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Nacionalidad</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let autor of autores">
+        <td>{{ autor.id }}</td>
+        <td>{{ autor.nombre }}</td>
+        <td>{{ autor.nacionalidad }}</td>
+        <td>{{ autor.fechaNacimiento }}</td>
+        <td>
+          <button class="btn btn-sm btn-warning" routerLink="/autores/edit/{{ autor.id }}">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminarAutor(autor.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <button class="page-link" (click)="cambiarPagina(currentPage - 1)">Anterior</button>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active]="i === currentPage"
+      >
+        <button class="page-link" (click)="cambiarPagina(i)">{{ i + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+        <button class="page-link" (click)="cambiarPagina(currentPage + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</div>

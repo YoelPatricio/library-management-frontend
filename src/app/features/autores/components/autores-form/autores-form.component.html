@@ -1,0 +1,31 @@
+<div class="container mt-3">
+    <h2>{{ autorId ? 'Editar Autor' : 'Nuevo Autor' }}</h2>
+    <form [formGroup]="formAutor" (ngSubmit)="guardarAutor()">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input id="nombre" type="text" class="form-control" formControlName="nombre" />
+        <div *ngIf="formAutor.get('nombre')?.invalid && formAutor.get('nombre')?.touched" class="text-danger">
+          El nombre es obligatorio.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="nacionalidad" class="form-label">Nacionalidad</label>
+        <input id="nacionalidad" type="text" class="form-control" formControlName="nacionalidad" />
+        <div *ngIf="formAutor.get('nacionalidad')?.invalid && formAutor.get('nacionalidad')?.touched" class="text-danger">
+          La nacionalidad es obligatoria.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+        <input id="fechaNacimiento" type="date" class="form-control" formControlName="fechaNacimiento" />
+        <div *ngIf="formAutor.get('fechaNacimiento')?.invalid && formAutor.get('fechaNacimiento')?.touched" class="text-danger">
+          La fecha de nacimiento es obligatoria.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="formAutor.invalid">
+        {{ autorId ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/autores'])">Cancelar</button>
+    </form>
+  </div>
+  

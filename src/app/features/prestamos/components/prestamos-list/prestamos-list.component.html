@@ -1,0 +1,88 @@
+<div class="container mt-3">
+  <h2>Listado de Préstamos</h2>
+  <br>
+  <!-- Filtros -->
+  <form [formGroup]="filtrosForm" class="row mb-3">
+    <!-- Campo de búsqueda -->
+    <div class="col-md-4">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por título del libro o ISBN"
+        formControlName="filtro"
+      />
+    </div>
+
+    <!-- Select para el estado -->
+    <div class="col-md-4">
+      <select class="form-select" formControlName="estado">
+        <option value="Todos">Todos</option>
+        <option value="ACTIVO">Activo</option>
+        <option value="FINALIZADO">Finalizado</option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary mb-3" routerLink="new">Nuevo Préstamo</button>
+    </div>
+  </form>
+
+  
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Libro</th>
+        <th>ISBN</th>
+        <th>Lector</th>
+        <th>Fecha de Préstamo</th>
+        <th>Fecha de Devolución</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prestamo of prestamos">
+        <td>{{ prestamo.id }}</td>
+        <td>{{ prestamo.libroTitulo }}</td>
+        <td>{{ prestamo.libroIsbn }}</td>
+        <td>{{ prestamo.lector }}</td>
+        <td>{{ prestamo.fechaPrestamo }}</td>
+        <td>{{ prestamo.fechaDevolucion || 'Pendiente' }}</td>
+        <td>{{ prestamo.estado }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-success"
+            [disabled]="prestamo.estado === 'FINALIZADO'"
+            (click)="finalizarPrestamo(prestamo.id)">Finalizar</button>
+          <button class="btn btn-sm btn-warning" 
+            [disabled]="prestamo.estado === 'FINALIZADO'"
+            routerLink="/prestamos/edit/{{ prestamo.id }}">
+            Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminarPrestamo(prestamo.id)">
+            Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Controles de Paginación -->
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 0">
+        <button class="page-link" (click)="cambiarPagina(currentPage - 1)">Anterior</button>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active]="i === currentPage"
+      >
+        <button class="page-link" (click)="cambiarPagina(i)">{{ i + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+        <button class="page-link" (click)="cambiarPagina(currentPage + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</div>
